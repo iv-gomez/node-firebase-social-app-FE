@@ -15,7 +15,8 @@ export const Home = () => {
   return (
     <Grid container spacing={2}>
       <Grid item sm={8} xs={12}>
-        {(screams && screams.map((scream) => <Scream key={scream.screamId} scream={scream} />)) || (
+        {(screams.length &&
+          screams.map((scream) => <Scream key={scream.screamId} scream={scream} />)) || (
           <p>Loading...</p>
         )}
       </Grid>

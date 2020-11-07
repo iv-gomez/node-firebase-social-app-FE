@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import AppIcon from "../images/icon.png";
 import { useForm } from "../hooks/useForm";
 import { Link } from "react-router-dom";
-
+//REDUX
+import { connect } from "react-redux";
+import { signupUser, logoutUser } from "../redux/actions/userActions";
 // MUI Imports
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -17,7 +18,13 @@ const styles = (theme) => ({
   ...theme.customTheme,
 });
 
-const Signup = ({ history, classes }) => {
+const Signup = (props) => {
+  const {
+    history,
+    classes,
+    signupUser,
+    UI: { errors, loading },
+  } = props;
   const [formValues, handleInputChange] = useForm({
     email: "",
     password: "",
@@ -25,25 +32,10 @@ const Signup = ({ history, classes }) => {
     handle: "",
   });
   const { email, password, confirmPassword, handle } = formValues;
-  const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    axios
-      .post("/signup", formValues)
-      .then((res) => {
-        localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
-        setLoading(false);
-        history.push("/");
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        setErrors(err.response.data);
-        setLoading(false);
-      });
+    signupUser(formValues, history);
   };
 
   return (
@@ -131,6 +123,14 @@ const Signup = ({ history, classes }) => {
 
 Signup.propTypes = {
   classes: PropTypes.object.isRequired,
+  signupUser: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Signup);
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+});
+
+export default connect(mapStateToProps, { signupUser, logoutUser })(withStyles(styles)(Signup));

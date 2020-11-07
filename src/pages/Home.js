@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import Scream from "../components/Scream";
 // MUI Imports
 import Grid from "@material-ui/core/Grid";
+import { apiUrl } from "../const/api";
 
 export const Home = () => {
   const [screams, setscreams] = useState([]);
 
   useEffect(() => {
-    axios.get("/screams").then((res) => {
+    axios.get(`${apiUrl}/screams`).then((res) => {
       setscreams(res.data);
     });
   }, []);

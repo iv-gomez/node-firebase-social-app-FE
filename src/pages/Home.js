@@ -5,7 +5,7 @@ import Scream from "../components/Scream";
 import Grid from "@material-ui/core/Grid";
 
 export const Home = () => {
-  const [screams, setscreams] = useState();
+  const [screams, setscreams] = useState([]);
 
   useEffect(() => {
     axios.get("/screams").then((res) => {

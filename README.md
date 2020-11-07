@@ -15,3 +15,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - npm install dayjs --save
   https://www.npmjs.com/package/dayjs
+
+- npm install --save jwt-decode
+  https://www.npmjs.com/package/jwt-decode
+
+- npm install --save redux react-redux redux-thunk @reduxjs/toolkit
+  https://redux.js.org/introduction/getting-started
+  https://react-redux.js.org/introduction/quick-start
+  https://www.npmjs.com/package/redux-thunk
+  https://github.com/zalmoxisus/redux-devtools-extension

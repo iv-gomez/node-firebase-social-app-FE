@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Scream from "../components/Scream";
+import Profile from "../components/Profile";
 // MUI Imports
 import Grid from "@material-ui/core/Grid";
 import { apiUrl } from "../const/api";
@@ -22,7 +23,7 @@ export const Home = () => {
         )}
       </Grid>
       <Grid item sm={4} xs={12}>
-        <p>Profile...</p>
+        <Profile />
       </Grid>
     </Grid>
   );

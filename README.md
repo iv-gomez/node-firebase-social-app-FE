@@ -24,3 +24,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   https://react-redux.js.org/introduction/quick-start
   https://www.npmjs.com/package/redux-thunk
   https://github.com/zalmoxisus/redux-devtools-extension
+
+- npm install --save @material-ui/icons
+  https://www.npmjs.com/package/@material-ui/icons
+  https://material-ui.com/components/material-icons/

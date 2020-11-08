@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import MyButton from "../util/MyButton";
+import DeleteScream from "./DeleteScream";
 // Redux
 import { connect } from "react-redux";
 import { likeScream, unLikeScream } from "../redux/actions/dataActions";
@@ -20,6 +21,7 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 
 const styles = {
   card: {
+    position: "relative",
     display: "flex",
     marginBottom: 20,
   },
@@ -34,7 +36,11 @@ const styles = {
 
 const Scream = (props) => {
   const { classes, scream, likeScream, unLikeScream, user } = props;
-  const { likes, authenticated } = user;
+  const {
+    likes,
+    authenticated,
+    credentials: { handle },
+  } = user;
   const { body, createdAt, userImage, userHandle, screamId, likeCount, commentCount } = scream;
   dayjs.extend(relativeTime);
 
@@ -70,6 +76,13 @@ const Scream = (props) => {
     </MyButton>
   );
 
+  const deleteButton =
+    authenticated && userHandle === handle ? (
+      <DeleteScream screamId={screamId} />
+    ) : (
+      <DeleteScream screamId={screamId} />
+    );
+
   return (
     <Card className={classes.card}>
       <CardMedia image={userImage} title="Profile image" className={classes.image} />
@@ -77,6 +90,7 @@ const Scream = (props) => {
         <Typography variant="h5" component={Link} to={`/users/${userHandle}`} color="primary">
           {userHandle}
         </Typography>
+        {deleteButton}
         <Typography variant="body2" color="textSecondary">
           {dayjs(createdAt).fromNow()}
         </Typography>

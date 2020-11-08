@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useForm } from "../hooks/useForm";
 import MyButton from "../util/MyButton";
 // Redux
 import { connect } from "react-redux";
-import { postScream } from "../redux/actions/dataActions";
+import { postScream, clearErrors } from "../redux/actions/dataActions";
 // MUI
 import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "@material-ui/core/Button";
@@ -15,56 +15,46 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
 // Icons
 import AddIcon from "@material-ui/icons/Add";
-import EditIcon from "@material-ui/icons/Edit";
 import CloseIcon from "@material-ui/icons/Close";
 
 const styles = (theme) => ({
   ...theme.customTheme,
   submitButton: {
     position: "relative",
+    float: "right",
+    marginTop: 10,
   },
   progressSpinner: {
     position: "absolute",
   },
   closeButton: {
     position: "absolute",
-    left: "90%",
-    top: "10%",
+    left: "91%",
+    top: "4%",
   },
 });
 
 const PostScream = (props) => {
-  const { postScream, UI, classes } = props;
+  const { postScream, clearErrors, UI, classes } = props;
   const { loading, errors } = UI;
   const [open, setOpen] = useState(false);
-  const [formErrors, setFormErrors] = useState(errors);
   const [formValues, handleInputChange, reset] = useForm({
     body: "",
   });
-
   const { body } = formValues;
   const handleOpen = () => {
-    setFormErrors({});
     setOpen(!open);
+    clearErrors();
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     postScream(formValues);
     reset();
-    if (!formErrors && !loading) {
+    if (!errors && !loading && body) {
       setOpen(false);
-    } else {
-      setFormErrors(errors);
     }
   };
-
-  useEffect(() => {
-    setFormErrors(errors);
-    if (!errors) {
-      setOpen(false);
-    }
-  }, [errors]);
 
   return (
     <>
@@ -85,8 +75,8 @@ const PostScream = (props) => {
               multiline
               rows="3"
               placeholder="Scream at your fellow apes"
-              error={formErrors?.body ? true : false}
-              helperText={formErrors?.body}
+              error={errors?.body ? true : false}
+              helperText={errors?.body}
               className={classes.TextField}
               value={body}
               onChange={handleInputChange}
@@ -111,6 +101,7 @@ const PostScream = (props) => {
 
 PostScream.propTypes = {
   postScream: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
 };
 
@@ -118,4 +109,6 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
 });
 
-export default connect(mapStateToProps, { postScream })(withStyles(styles)(PostScream));
+export default connect(mapStateToProps, { postScream, clearErrors })(
+  withStyles(styles)(PostScream)
+);

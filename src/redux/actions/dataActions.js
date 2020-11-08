@@ -1,10 +1,12 @@
 import {
   SET_SCREAMS,
+  SET_SCREAM,
   LOADING_DATA,
   LIKE_SCREAM,
   UNLIKE_SCREAM,
   DELETE_SCREAM,
   LOADING_UI,
+  STOP_LOADING_UI,
   POST_SCREAM,
   SET_ERRORS,
   CLEAR_ERRORS,
@@ -29,6 +31,21 @@ export const getScreams = () => (dispatch) => {
         payload: [],
       });
     });
+};
+
+// Get a scream
+export const getScream = (screamId) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .get(`${apiUrl}/scream/${screamId}`)
+    .then((res) => {
+      dispatch({
+        type: SET_SCREAM,
+        payload: res.data,
+      });
+      dispatch({ type: STOP_LOADING_UI });
+    })
+    .catch((err) => console.log(err));
 };
 
 // Post a scream

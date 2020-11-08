@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import MyButton from "../util/MyButton";
 import DeleteScream from "./DeleteScream";
+import ScreamDialog from "./ScreamDialog";
 // Redux
 import { connect } from "react-redux";
 import { likeScream, unLikeScream } from "../redux/actions/dataActions";
@@ -77,11 +78,7 @@ const Scream = (props) => {
   );
 
   const deleteButton =
-    authenticated && userHandle === handle ? (
-      <DeleteScream screamId={screamId} />
-    ) : (
-      <DeleteScream screamId={screamId} />
-    );
+    authenticated && userHandle === handle ? <DeleteScream screamId={screamId} /> : null;
 
   return (
     <Card className={classes.card}>
@@ -100,6 +97,8 @@ const Scream = (props) => {
         <MyButton tip="comments">
           <ChatIcon color="primary" />
         </MyButton>
+        <span>{commentCount} comments</span>
+        <ScreamDialog screamId={screamId} userHandle={userHandle} />
       </CardContent>
     </Card>
   );

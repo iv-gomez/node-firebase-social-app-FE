@@ -8,10 +8,10 @@ import store from "./redux/store";
 import { SET_AUTHENTICATED } from "./redux/types";
 import { logoutUser, getUserData } from "./redux/actions/userActions";
 // Components
-import { NavBar } from "./components/NavBar";
+import NavBar from "./components/NavBar";
 import AuthRoute from "./util/AuthRoute";
 // Pages
-import { Home } from "./pages/Home";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 // MUI Imports

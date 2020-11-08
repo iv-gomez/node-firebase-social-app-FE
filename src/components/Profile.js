@@ -1,9 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
+import EditDetails from "../components/EditDetails";
+import MyButton from "../util/MyButton";
 // Redux
 import { connect } from "react-redux";
+import { logoutUser, uploadImage } from "../redux/actions/userActions";
 // MUI Imports
 import withStyles from "@material-ui/core/styles/withStyles";
 import MuiLink from "@material-ui/core/Link";
@@ -13,6 +16,8 @@ import Paper from "@material-ui/core/Paper";
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
+import EditIcon from "@material-ui/icons/Edit";
+import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 
 const styles = (theme) => ({
   ...theme.customTheme,
@@ -20,10 +25,28 @@ const styles = (theme) => ({
 
 const Profile = (props) => {
   const {
+    uploadImage,
+    logoutUser,
     classes,
     user: { credentials, loading, authenticated },
   } = props;
   const { handle, createdAt, imageUrl, bio, website, location } = credentials;
+
+  const handleImageChange = (e) => {
+    const image = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", image, image.name);
+    uploadImage(formData);
+  };
+
+  const handleEditPicture = (e) => {
+    const fileInput = document.getElementById("imageInput");
+    fileInput.click();
+  };
+
+  const handleLogout = () => {
+    logoutUser();
+  };
 
   let profileMarkup = !loading ? (
     authenticated ? (
@@ -31,6 +54,10 @@ const Profile = (props) => {
         <div className={classes.profile}>
           <div className="image-wrapper">
             <img src={imageUrl} alt="profile" className="profile-image" />
+            <input type="file" id="imageInput" hidden="hidden" onChange={handleImageChange} />
+            <MyButton tip="Edit profile picture" onClick={handleEditPicture} btnClassName="button">
+              <EditIcon color="primary" />
+            </MyButton>
           </div>
           <hr />
           <div className="profile-details">
@@ -60,6 +87,10 @@ const Profile = (props) => {
             <CalendarToday color="primary" />{" "}
             <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
           </div>
+          <MyButton tip="Logout" onClick={handleLogout}>
+            <KeyboardReturn color="primary" />
+          </MyButton>
+          <EditDetails />
         </div>
       </Paper>
     ) : (
@@ -88,9 +119,16 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
+const mapActionsToProps = {
+  logoutUser,
+  uploadImage,
+};
+
 Profile.propTypes = {
   user: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  uploadImage: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(Profile));
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Profile));

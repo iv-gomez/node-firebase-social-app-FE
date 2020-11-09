@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import EditDetails from "../components/EditDetails";
-import MyButton from "../util/MyButton";
+import EditDetails from "../../components/profile/EditDetails";
+import MyButton from "../../util/MyButton";
 // Redux
 import { connect } from "react-redux";
-import { logoutUser, uploadImage } from "../redux/actions/userActions";
+import { logoutUser, uploadImage } from "../../redux/actions/userActions";
 // MUI Imports
 import withStyles from "@material-ui/core/styles/withStyles";
 import MuiLink from "@material-ui/core/Link";

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useForm } from "../hooks/useForm";
-import MyButton from "../util/MyButton";
+import { useForm } from "../../hooks/useForm";
+import MyButton from "../../util/MyButton";
 // Redux
 import { connect } from "react-redux";
-import { postScream, clearErrors } from "../redux/actions/dataActions";
+import { postScream, clearErrors } from "../../redux/actions/dataActions";
 // MUI
 import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "@material-ui/core/Button";

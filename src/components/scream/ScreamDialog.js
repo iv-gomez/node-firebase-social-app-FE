@@ -2,24 +2,24 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useForm } from "../hooks/useForm";
-import MyButton from "../util/MyButton";
+import LikeButton from "./LikeButton";
+import Comments from "./Comments";
+import CommentForm from "./CommentForm";
+import MyButton from "../../util/MyButton";
 //REDUX
 import { connect } from "react-redux";
-import { getScream } from "../redux/actions/dataActions";
+import { getScream } from "../../redux/actions/dataActions";
 // MUI
 import withStyles from "@material-ui/core/styles/withStyles";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 // Icons
 import CloseIcon from "@material-ui/icons/Close";
 import UnfoldMore from "@material-ui/icons/UnfoldMore";
+import ChatIcon from "@material-ui/icons/Chat";
 
 const styles = (theme) => ({
   ...theme.customTheme,
@@ -41,12 +41,17 @@ const styles = (theme) => ({
     position: "absolute",
     left: "90%",
   },
+  spinnerDiv: {
+    textAlign: "center",
+    marginTop: 50,
+    marginBottom: 50,
+  },
 });
 
 const ScreamDialog = (props) => {
   const { getScream, scream, screamId, userHandle, classes, UI } = props;
 
-  const { body, createdAt, userImage, likeCount, commentCount } = scream;
+  const { body, createdAt, userImage, likeCount, commentCount, comments } = scream;
 
   const { loading } = UI;
 
@@ -58,7 +63,9 @@ const ScreamDialog = (props) => {
   };
 
   const dialogMarkup = loading ? (
-    <CircularProgress size={200} className={classes.progressSpinner} />
+    <div className={classes.spinnerDiv}>
+      <CircularProgress size={200} className={classes.progressSpinner} thickness={2} />
+    </div>
   ) : (
     <Grid container spacing={2}>
       <Grid item sm={5}>
@@ -74,7 +81,16 @@ const ScreamDialog = (props) => {
         </Typography>
         <hr className={classes.invisibleSeparator} />
         <Typography variant="body1">{body}</Typography>
+        <LikeButton screamId={screamId} />
+        <span>{likeCount} likes</span>
+        <MyButton tip="comments">
+          <ChatIcon color="primary" />
+        </MyButton>
+        <span>{commentCount} comments</span>
       </Grid>
+      <hr className={classes.visibleSeparator} />
+      <CommentForm screamId={screamId} />
+      <Comments comments={comments} />
     </Grid>
   );
 

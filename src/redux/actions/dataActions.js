@@ -10,6 +10,7 @@ import {
   POST_SCREAM,
   SET_ERRORS,
   CLEAR_ERRORS,
+  SUBMIT_COMMENT,
 } from "../types";
 import axios from "axios";
 import { apiUrl } from "../../const/api";
@@ -58,7 +59,7 @@ export const postScream = (newScream) => (dispatch) => {
         type: POST_SCREAM,
         payload: res.data,
       });
-      dispatch({ type: CLEAR_ERRORS });
+      dispatch(clearErrors());
     })
     .catch((err) => {
       dispatch({
@@ -94,6 +95,23 @@ export const unLikeScream = (screamId) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
+// Submit a comment
+export const submitComment = (screamId, commentData) => (dispatch) => {
+  axios
+    .post(`${apiUrl}/scream/${screamId}/comment`, commentData)
+    .then((res) => {
+      dispatch({ type: SUBMIT_COMMENT, payload: res.data });
+      dispatch(clearErrors());
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
+
+// Delete a scream
 export const deleteScream = (screamId) => (dispatch) => {
   axios
     .delete(`${apiUrl}/scream/${screamId}`)

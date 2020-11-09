@@ -8,7 +8,7 @@ import CommentForm from "./CommentForm";
 import MyButton from "../../util/MyButton";
 //REDUX
 import { connect } from "react-redux";
-import { getScream } from "../../redux/actions/dataActions";
+import { getScream, clearErrors } from "../../redux/actions/dataActions";
 // MUI
 import withStyles from "@material-ui/core/styles/withStyles";
 import Dialog from "@material-ui/core/Dialog";
@@ -49,7 +49,7 @@ const styles = (theme) => ({
 });
 
 const ScreamDialog = (props) => {
-  const { getScream, scream, screamId, userHandle, classes, UI } = props;
+  const { getScream, clearErrors, scream, screamId, userHandle, classes, UI } = props;
 
   const { body, createdAt, userImage, likeCount, commentCount, comments } = scream;
 
@@ -60,6 +60,7 @@ const ScreamDialog = (props) => {
   const handleOpen = () => {
     getScream(screamId);
     setOpen(!open);
+    clearErrors();
   };
 
   const dialogMarkup = loading ? (
@@ -116,10 +117,12 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   getScream,
+  clearErrors,
 };
 
 ScreamDialog.propTypes = {
   getScream: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   screamId: PropTypes.string.isRequired,
   userHandle: PropTypes.string.isRequired,
   scream: PropTypes.object.isRequired,

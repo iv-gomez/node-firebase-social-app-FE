@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 // MUI Imports
 import Grid from "@material-ui/core/Grid";
 import { getScreams } from "../redux/actions/dataActions";
+import ScreamSkeleton from "../util/ScreamSkeleton";
 
 const Home = (props) => {
   const {
@@ -22,7 +23,7 @@ const Home = (props) => {
       <Grid item sm={8} xs={12}>
         {(!loading &&
           screams.map((scream) => <Scream key={scream.screamId} scream={scream} />)) || (
-          <p>Loading...</p>
+          <ScreamSkeleton />
         )}
       </Grid>
       <Grid item sm={4} xs={12}>

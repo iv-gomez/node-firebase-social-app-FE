@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -49,7 +49,7 @@ const styles = (theme) => ({
 });
 
 const ScreamDialog = (props) => {
-  const { getScream, clearErrors, scream, screamId, userHandle, classes, UI } = props;
+  const { getScream, clearErrors, scream, screamId, userHandle, classes, UI, openDialog } = props;
 
   const { body, createdAt, userImage, likeCount, commentCount, comments } = scream;
 
@@ -57,11 +57,29 @@ const ScreamDialog = (props) => {
 
   const [open, setOpen] = useState(false);
 
+  const [path, setPath] = useState("");
+
   const handleOpen = () => {
+    const newPath = `/users/${userHandle}/scream/${screamId}`;
+    const oldPath = window.location.pathname;
+    setPath(oldPath);
+    if (oldPath === newPath) setPath(`/users/${userHandle}`);
+    window.history.pushState(null, null, newPath);
     getScream(screamId);
-    setOpen(!open);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    window.history.pushState(null, null, path);
+    setOpen(false);
     clearErrors();
   };
+
+  useEffect(() => {
+    if (openDialog) {
+      handleOpen();
+    }
+  }, []);
 
   const dialogMarkup = loading ? (
     <div className={classes.spinnerDiv}>
@@ -100,8 +118,8 @@ const ScreamDialog = (props) => {
       <MyButton tip="Expand scream" onClick={handleOpen} tipClassName={classes.expandButton}>
         <UnfoldMore color="primary" />
       </MyButton>
-      <Dialog open={open} onClose={handleOpen} fullWidth maxWidth="sm">
-        <MyButton onClick={handleOpen} tip="Close" tipClassName={classes.closeButton}>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+        <MyButton onClick={handleClose} tip="Close" tipClassName={classes.closeButton}>
           <CloseIcon />
         </MyButton>
         <DialogContent className={classes.dialogContent}>{dialogMarkup}</DialogContent>

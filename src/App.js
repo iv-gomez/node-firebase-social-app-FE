@@ -14,6 +14,7 @@ import AuthRoute from "./util/AuthRoute";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import User from "./pages/User";
 // MUI Imports
 import "./App.css";
 import themeFile from "./util/theme";
@@ -46,6 +47,8 @@ function App() {
                 <Route exact path="/" component={Home} />
                 <AuthRoute exact path="/login" component={Login} />
                 <AuthRoute exact path="/signup" component={Signup} />
+                <Route exact path="/users/:handle" component={User} />
+                <Route exact path="/users/:handle/scream/:screamId" component={User} />
               </Switch>
             </div>
           </Router>

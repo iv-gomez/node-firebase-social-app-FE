@@ -34,7 +34,7 @@ const styles = {
 };
 
 const Scream = (props) => {
-  const { classes, scream, user } = props;
+  const { classes, scream, user, openDialog } = props;
   const {
     authenticated,
     credentials: { handle },
@@ -63,7 +63,7 @@ const Scream = (props) => {
           <ChatIcon color="primary" />
         </MyButton>
         <span>{commentCount} comments</span>
-        <ScreamDialog screamId={screamId} userHandle={userHandle} />
+        <ScreamDialog screamId={screamId} userHandle={userHandle} openDialog={openDialog} />
       </CardContent>
     </Card>
   );
@@ -73,6 +73,7 @@ Scream.prototypes = {
   user: PropTypes.object.isRequired,
   scream: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  openDialog: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({

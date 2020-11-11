@@ -58,7 +58,7 @@ CommentForm.propTypes = {
   submitComment: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
   classes: PropTypes.string.isRequired,
-  screamId: PropTypes.object.isRequired,
+  screamId: PropTypes.string.isRequired,
   authenticated: PropTypes.bool.isRequired,
 };
 

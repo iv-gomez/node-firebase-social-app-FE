@@ -51,7 +51,7 @@ const LikeButton = (props) => {
 
 LikeButton.propTypes = {
   user: PropTypes.object.isRequired,
-  screamId: PropTypes.object.isRequired,
+  screamId: PropTypes.string.isRequired,
   likeScream: PropTypes.func.isRequired,
   unLikeScream: PropTypes.func.isRequired,
 };

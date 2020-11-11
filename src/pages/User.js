@@ -4,7 +4,7 @@ import axios from "axios";
 import { apiUrl } from "../const/api";
 import Scream from "../components/scream/Scream";
 import StaticProfile from "../components/profile/StaticProfile";
-import ScreamSkeleton from "../util/ScreamSkeleton";
+import ProfileSkeleton from "../util/ProfileSkeleton";
 // Redux
 import { connect } from "react-redux";
 import { getUserData } from "../redux/actions/dataActions";
@@ -42,7 +42,7 @@ const User = (props) => {
   }, []);
 
   const screamsMarkup = loading ? (
-    <ScreamSkeleton />
+    <ProfileSkeleton />
   ) : screams === null ? (
     <p>No screams from this user</p>
   ) : !screamIdParam ? (
